@@ -6,7 +6,7 @@
 
 PATH=/bin:/usr/bin
 
-if [ -n "$1" ]; then
+if [ ! -z  "$1" ]; then
     # If the user has supplied arguments run screen with those arguments
     exec screen $* 
 else
