@@ -4,12 +4,9 @@
 # Andrew Harford <receive@redbrick.dcu.ie> 
 # November 2008
 
-
-#Needs path cause screen isn't in /usr/bin on murphy
-PATH=/bin:/usr/bin:/usr/local/bin
+PATH=/bin:/usr/bin
 
 if [ -n "$1" ]; then
-
     # If the user has supplied arguments run screen with those arguments
     exec screen $* 
 else
