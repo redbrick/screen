@@ -18,9 +18,8 @@ else
     if [ $? -ne 0 ]; then
 		echo "==============================================================================";
 
-		# find out if their running screen is attached
-		attached=$(screen -ls | grep -c Attached)
-		if [ "$attached" -gt 0 ]; then 
+		# find out if they are running inside screen
+		if [ ! -z "$STY" ]; then 
 	        echo "You are attempting to run screen from within screen."
 		    echo "You probably don't want to do this."
 		else
