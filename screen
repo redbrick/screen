@@ -32,7 +32,7 @@ else
 
 	    echo 
 	    echo "You can read more about screen on http://wiki.redbrick.dcu.ie/mw/Screen"
-	    echo "To override this message and run another screen use `which screen`"
+		echo "To override this message and run another screen use $(which screen)"
 	    echo "=============================================================================="
 		exit 1
 	else
