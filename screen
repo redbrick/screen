@@ -12,38 +12,32 @@ if [ -n "$1" ]; then
 else
 
     # otherwise, work out if they're running screen.
-    uid=`id -nu`
-    screencount=`ps U $uid|grep -ci screen`
-	
-    # if they're running screen already, lets give a warning
-    if [ "$screencount" -gt 3 ]; then
-	
-	# find out if their running screen is attached
-	attached=`screen -ls | grep -c Attached`
-	if [ "$attached" -gt 0 ]; then 
-	        echo "=============================================================================="
-        	echo "You are attempting to run screen from within screen."
-	        echo "You probably don't want to do this."
-		echo 
-        	echo "You can read more about screen on http://wiki.redbrick.dcu.ie/mw/Screen"
-        	echo "To override this message and run screen use `which screen`"
-        	echo "=============================================================================="
-		exit 0
-	fi
+	screen -ls | grep -q "No Sockets"
 
-	# otherwise, the screen is detached. user probably wants to re-attach.
-        echo "=============================================================================="
-        echo "You are attempting to open a new screen session, even though you have an"
-        echo "existing session running. You probably don't want to do this."
-        echo 
-        echo "To continue your existing session run screen -DR"
-        echo 
-        echo "You can read more about screen on http://wiki.redbrick.dcu.ie/mw/Screen"
-        echo "To override this message and run another screen use `which screen`"
-        echo "=============================================================================="
-    else
-	# if we get this far then just open a new screen
-        exec screen
-    fi
+    # if they're running screen already, lets give a warning
+    if [ $? -ne 0 ]; then
+		echo "==============================================================================";
+
+		# find out if their running screen is attached
+		attached=$(screen -ls | grep -c Attached)
+		if [ "$attached" -gt 0 ]; then 
+	        echo "You are attempting to run screen from within screen."
+		    echo "You probably don't want to do this."
+		else
+			# otherwise, the screen is detached. user probably wants to re-attach.
+			echo "You are attempting to open a new screen session, even though you have an"
+			echo "existing session running. You probably don't want to do this."
+			echo
+			echo "To continue your existing session run screen -DR"
+		fi
+
+	    echo 
+	    echo "You can read more about screen on http://wiki.redbrick.dcu.ie/mw/Screen"
+	    echo "To override this message and run another screen use `which screen`"
+	    echo "=============================================================================="
+	else
+		# if we get this far then just open a new screen
+	    exec screen
+	fi
 fi
         
